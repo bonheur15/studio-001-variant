@@ -14,6 +14,8 @@ import (
 	"github.com/bonheur/db-studio/internal/handler"
 	"github.com/bonheur/db-studio/internal/session"
 	"github.com/bonheur/db-studio/internal/template"
+
+	_ "github.com/bonheur/db-studio/internal/database/mysql"
 )
 
 //go:embed all:web/templates
