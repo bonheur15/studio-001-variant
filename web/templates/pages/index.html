@@ -1,0 +1,83 @@
+{{define "page_content"}}
+<div class="min-h-screen flex items-center justify-center px-4 py-12">
+  <div class="w-full max-w-lg">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-xl mb-4">
+        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+        </svg>
+      </div>
+      <h1 class="text-2xl font-semibold text-gray-900">DB Studio</h1>
+      <p class="mt-1 text-sm text-gray-500">Connect to your database</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+      <form hx-post="/api/connect" hx-target="#connect-result" hx-swap="innerHTML" class="space-y-4">
+        <input type="hidden" name="session_id" value="{{.SessionID}}">
+
+        <div>
+          <label class="label" for="driver">Database</label>
+          <select id="driver" name="driver" class="select">
+            <option value="mysql" selected>MySQL</option>
+            <option value="postgres">PostgreSQL</option>
+            <option value="mongodb">MongoDB</option>
+          </select>
+        </div>
+
+        <div class="flex gap-1 p-1 bg-gray-100 rounded-lg">
+          <button type="button" class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md bg-white shadow-sm text-gray-900" id="mode-fields" onclick="switchMode('fields')">
+            Individual Fields
+          </button>
+          <button type="button" class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700" id="mode-string" onclick="switchMode('string')">
+            Connection String
+          </button>
+        </div>
+
+        <div id="fields-mode" class="space-y-3">
+          <div class="grid grid-cols-3 gap-3">
+            <div class="col-span-2">
+              <label class="label" for="host">Host</label>
+              <input id="host" name="host" type="text" class="input" placeholder="localhost" value="localhost">
+            </div>
+            <div>
+              <label class="label" for="port">Port</label>
+              <input id="port" name="port" type="text" class="input" placeholder="3306">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="label" for="user">Username</label>
+              <input id="user" name="user" type="text" class="input" placeholder="root">
+            </div>
+            <div>
+              <label class="label" for="password">Password</label>
+              <input id="password" name="password" type="password" class="input" placeholder="Enter password">
+            </div>
+          </div>
+          <div>
+            <label class="label" for="database">Database</label>
+            <input id="database" name="database" type="text" class="input" placeholder="mydb">
+          </div>
+        </div>
+
+        <div id="string-mode" class="hidden">
+          <label class="label" for="conn_string">Connection String</label>
+          <input id="conn_string" name="conn_string" type="text" class="input font-mono text-xs" placeholder="mysql://user:pass@localhost:3306/mydb">
+        </div>
+
+        <button type="submit" class="btn-primary w-full">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+          </svg>
+          Connect
+        </button>
+      </form>
+      <div id="connect-result" class="mt-4"></div>
+    </div>
+
+    <p class="mt-6 text-center text-xs text-gray-400">
+      Your connection details are used only for this session and are never stored
+    </p>
+  </div>
+</div>
+{{end}}
