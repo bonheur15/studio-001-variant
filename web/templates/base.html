@@ -1,0 +1,24 @@
+{{define "base"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="session-id" content="{{.SessionID}}">
+  <title>{{.Title}}</title>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <link rel="stylesheet" href="/static/css/output.css">
+  <script src="/static/js/app.js" defer></script>
+</head>
+<body class="bg-grid min-h-screen">
+  {{template "page_content" .}}
+  <script>
+    (function(){
+      var meta = document.querySelector('meta[name="session-id"]');
+      if (meta) {
+        sessionStorage.setItem('session-id', meta.getAttribute('content'));
+      }
+    })();
+  </script>
+</body>
+</html>
+{{end}}
