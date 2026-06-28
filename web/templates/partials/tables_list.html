@@ -1,0 +1,44 @@
+{{define "tables_list"}}
+<div class="space-y-6 fade-in">
+  <div>
+    <div class="flex items-center gap-2 mb-4">
+      <h2 class="text-lg font-semibold text-gray-900">{{.Database}}</h2>
+      <span class="badge-gray text-xs">{{len .Tables}} tables</span>
+    </div>
+
+    <div class="grid grid-cols-1 gap-2">
+      {{range .Tables}}
+      <div class="card p-4 hover:shadow-md transition-all duration-150 cursor-pointer border border-gray-200 hover:border-gray-300"
+           hx-get="/api/table?db={{$.Database}}&table={{.Name}}"
+           hx-target="#table-detail"
+           hx-swap="innerHTML"
+           hx-indicator="#table-detail">
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+          </svg>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-gray-900 truncate">{{.Name}}</p>
+            <p class="text-xs text-gray-500 truncate">{{if .Comment}}{{.Comment}}{{else}}<span class="text-gray-300">No description</span>{{end}}</p>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            {{if eq .Type "VIEW"}}
+            <span class="badge-blue text-xs">view</span>
+            {{else}}
+            <span class="badge-green text-xs">{{.Rows}} rows</span>
+            {{end}}
+          </div>
+        </div>
+      </div>
+      {{end}}
+    </div>
+  </div>
+
+  <div id="table-detail">
+    <div class="htmx-indicator flex items-center justify-center py-12">
+      <span class="spinner mr-2 text-blue-600"></span>
+      <span class="text-sm text-gray-500">Loading table...</span>
+    </div>
+  </div>
+</div>
+{{end}}

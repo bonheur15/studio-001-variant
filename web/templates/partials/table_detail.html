@@ -1,0 +1,47 @@
+{{define "table_detail"}}
+<div class="fade-in">
+  <div class="mb-6">
+    <div class="flex items-center gap-3 mb-1">
+      <h2 class="text-lg font-semibold text-gray-900">{{.Table.Name}}</h2>
+      {{if eq .Table.Type "VIEW"}}
+      <span class="badge-blue text-xs">view</span>
+      {{else}}
+      <span class="badge-green text-xs">{{.Table.Rows}} rows</span>
+      {{end}}
+    </div>
+    {{if .Table.Comment}}
+    <p class="text-sm text-gray-500 mb-1">{{.Table.Comment}}</p>
+    {{end}}
+    <div class="flex items-center gap-3 text-xs text-gray-400">
+      <span>Schema: <span class="font-mono text-gray-600">{{.Database}}</span></span>
+      {{if .Table.Type}}
+      <span>Type: <span class="font-mono text-gray-600">{{.Table.Type}}</span></span>
+      {{end}}
+    </div>
+  </div>
+
+  <div class="border-b border-gray-200 mb-6">
+    <nav class="flex gap-6 -mb-px" role="tablist">
+      <button class="tab tab-active"
+              hx-get="/api/columns?db={{.Database}}&table={{.Table.Name}}"
+              hx-target="#table-content"
+              hx-swap="innerHTML"
+              role="tab">Columns</button>
+      <button class="tab tab-inactive"
+              hx-get="/api/indexes?db={{.Database}}&table={{.Table.Name}}"
+              hx-target="#table-content"
+              hx-swap="innerHTML"
+              role="tab">Indexes</button>
+      <button class="tab tab-inactive"
+              hx-get="/api/data?db={{.Database}}&table={{.Table.Name}}&offset=0&limit=50"
+              hx-target="#table-content"
+              hx-swap="innerHTML"
+              role="tab">Data</button>
+    </nav>
+  </div>
+
+  <div id="table-content">
+    {{template "columns_list" .}}
+  </div>
+</div>
+{{end}}
