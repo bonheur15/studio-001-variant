@@ -1,0 +1,11 @@
+{{define "database_list"}}
+{{range .Databases}}
+<button hx-get="/api/tables?db={{.}}" hx-target="#main-area" hx-swap="innerHTML"
+        class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+  <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+  </svg>
+  {{.}}
+</button>
+{{end}}
+{{end}}

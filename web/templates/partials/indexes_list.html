@@ -1,0 +1,24 @@
+{{define "indexes_list"}}
+<div class="overflow-x-auto rounded-lg border border-gray-200 fade-in">
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th class="table-header">Name</th>
+        <th class="table-header">Columns</th>
+        <th class="table-header">Unique</th>
+        <th class="table-header">Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Indexes}}
+      <tr class="hover:bg-gray-50 transition-colors">
+        <td class="table-cell font-medium text-gray-900">{{.Name}}</td>
+        <td class="table-cell">{{range $i, $c := .Columns}}{{if $i}}, {{end}}<code class="text-xs font-mono bg-gray-100 px-1.5 py-0.5 rounded">{{$c}}</code>{{end}}</td>
+        <td class="table-cell">{{if .Unique}}<span class="text-green-600 font-medium">YES</span>{{else}}<span class="text-gray-400">NO</span>{{end}}</td>
+        <td class="table-cell text-sm text-gray-500">{{.Type}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+{{end}}

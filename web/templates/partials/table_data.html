@@ -1,0 +1,53 @@
+{{define "table_data"}}
+<div class="fade-in">
+  {{if .Rows}}
+  <div class="overflow-x-auto rounded-lg border border-gray-200">
+    <table class="w-full">
+      <thead>
+        <tr>
+          {{range .Columns}}
+          <th class="table-header whitespace-nowrap">{{.}}</th>
+          {{end}}
+        </tr>
+      </thead>
+      <tbody>
+        {{range $i, $row := .Rows}}
+        <tr class="hover:bg-blue-50 transition-colors {{if even $i}}bg-gray-50/50{{end}}">
+          {{range $cell := $row}}
+          <td class="table-cell max-w-[200px] truncate" title="{{if isNil $cell}}NULL{{else}}{{printf "%v" $cell}}{{end}}">{{if isNil $cell}}<span class="text-gray-300 italic">NULL</span>{{else}}<span>{{printf "%v" $cell}}</span>{{end}}</td>
+          {{end}}
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </div>
+
+  {{if or .HasMore .HasPrev}}
+  <div class="flex items-center justify-between mt-4">
+    <span class="text-sm text-gray-500">Rows {{add .Offset 1}}&ndash;{{.End}}</span>
+    <div class="flex items-center gap-2">
+      {{if .HasPrev}}
+      <button hx-get="/api/data?db={{.Database}}&table={{.Table}}&offset={{.PrevOffset}}&limit={{.Limit}}"
+              hx-target="#table-content"
+              hx-swap="innerHTML"
+              class="btn-secondary text-xs">Previous</button>
+      {{end}}
+      {{if .HasMore}}
+      <button hx-get="/api/data?db={{.Database}}&table={{.Table}}&offset={{.NextOffset}}&limit={{.Limit}}"
+              hx-target="#table-content"
+              hx-swap="innerHTML"
+              class="btn-primary text-xs">Load More</button>
+      {{end}}
+    </div>
+  </div>
+  {{end}}
+  {{else}}
+  <div class="text-center py-12">
+    <svg class="w-8 h-8 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+    </svg>
+    <p class="text-sm text-gray-500">No data found</p>
+  </div>
+  {{end}}
+</div>
+{{end}}
