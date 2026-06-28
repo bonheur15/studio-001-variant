@@ -42,8 +42,11 @@ func (e *Engine) loadCommon() {
 			}
 			return s
 		},
-		"hasPrefix": strings.HasPrefix,
+		"hasPrefix":  strings.HasPrefix,
 		"trimSuffix": strings.TrimSuffix,
+		"mod":        func(a, b int) int { return a % b },
+		"even":       func(n int) bool { return n%2 == 0 },
+		"isNil":      func(v interface{}) bool { return v == nil },
 	}
 
 	tmpl := template.New("").Funcs(funcs)

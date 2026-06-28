@@ -16,6 +16,7 @@ import (
 	"github.com/bonheur/db-studio/internal/template"
 
 	_ "github.com/bonheur/db-studio/internal/database/mysql"
+	_ "github.com/bonheur/db-studio/internal/database/postgres"
 )
 
 //go:embed all:web/templates
@@ -49,7 +50,7 @@ func main() {
 	}
 	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.FS(staticSub))))
 
-	r.Get("/", h.Index)
+	h.RegisterRoutes(r)
 
 	addr := ":8080"
 	log.Printf("DB Studio starting on http://localhost%s", addr)

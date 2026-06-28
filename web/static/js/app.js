@@ -1,4 +1,3 @@
-// Tab-isolated session management
 (function() {
   var meta = document.querySelector('meta[name="session-id"]');
   var sessionId = meta ? meta.getAttribute('content') : null;
@@ -14,7 +13,6 @@
   });
 })();
 
-// Connection form mode switch
 function switchMode(mode) {
   var fields = document.getElementById('fields-mode');
   var stringMode = document.getElementById('string-mode');
@@ -34,7 +32,6 @@ function switchMode(mode) {
   }
 }
 
-// Auto-update port based on driver selection
 document.addEventListener('DOMContentLoaded', function() {
   var driver = document.getElementById('driver');
   var port = document.getElementById('port');
@@ -51,5 +48,25 @@ document.addEventListener('DOMContentLoaded', function() {
         port.value = ports[this.value] || '';
       }
     });
+  }
+});
+
+function toggleSidebar() {
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('sidebar-overlay');
+  if (sidebar && overlay) {
+    var isOpen = sidebar.classList.toggle('open');
+    overlay.classList.toggle('open', isOpen);
+  }
+}
+
+document.addEventListener('htmx:beforeSwap', function(e) {
+  if (e.detail.target && e.detail.target.id === 'main-area' && window.innerWidth < 1024) {
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('sidebar-overlay');
+    if (sidebar && overlay) {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+    }
   }
 });
