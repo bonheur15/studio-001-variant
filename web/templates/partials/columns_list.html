@@ -1,0 +1,28 @@
+{{define "columns_list"}}
+<div class="overflow-x-auto rounded-lg border border-gray-200 fade-in">
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th class="table-header">Name</th>
+        <th class="table-header">Type</th>
+        <th class="table-header">Nullable</th>
+        <th class="table-header">Default</th>
+        <th class="table-header">Key</th>
+        <th class="table-header">Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Columns}}
+      <tr class="hover:bg-gray-50 transition-colors">
+        <td class="table-cell font-medium text-gray-900">{{.Name}}</td>
+        <td class="table-cell font-mono text-xs">{{.Type}}</td>
+        <td class="table-cell">{{if .Nullable}}<span class="text-green-600 font-medium">YES</span>{{else}}<span class="text-gray-400">NO</span>{{end}}</td>
+        <td class="table-cell font-mono text-xs text-gray-500">{{if .Default}}{{.Default}}{{else}}<span class="text-gray-300">&mdash;</span>{{end}}</td>
+        <td class="table-cell">{{if .PrimaryKey}}<span class="badge-blue">PK</span>{{else}}<span class="text-gray-300">&mdash;</span>{{end}}</td>
+        <td class="table-cell text-sm text-gray-500">{{if .Comment}}{{.Comment}}{{else}}<span class="text-gray-300">&mdash;</span>{{end}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+{{end}}
